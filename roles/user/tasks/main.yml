@@ -1,0 +1,13 @@
+---
+- name: Create a user
+  user:
+    name: "{{ username }}"
+    password: "{{ pass | password_hash('sha512') }}"
+    groups: sudo
+    append: yes
+
+- name: Add user to the sudoers
+  copy:
+    dest: "/etc/sudoers.d/{{ username }}"
+    content: "{{ username }}  ALL=(ALL)  NOPASSWD: ALL"
+

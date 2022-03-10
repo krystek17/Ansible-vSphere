@@ -1,0 +1,4 @@
+ansible_ssh_user: ansible
+ansible_ssh_pass: "{{ ssh_pass }}"
+ansible_become_pass: "{{ ssh_pass }}"
+ansible_user: ansible

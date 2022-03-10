@@ -1,0 +1,9 @@
+- name: Install fish
+  apt:
+    name: "{{ item.name }}"
+  with_items: "{{ packages | default([]) }}"
+
+- name: Default shell
+  user:
+    name: "{{ username }}"
+    shell: /usr/bin/fish

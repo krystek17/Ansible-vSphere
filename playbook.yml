@@ -1,0 +1,24 @@
+---
+- name: Create VM
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  roles:
+    - vmware
+
+- name: Configure ssh port and user
+  hosts: vm-test
+  become: true
+  gather_facts: false
+  roles:
+    - ssh-port
+    - user
+
+- name: Setup VM
+  hosts: vm-test
+  become: true
+  roles:
+    - commons
+    - ssh-config
+    - docker
+    - ctop

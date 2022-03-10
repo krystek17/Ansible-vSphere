@@ -1,0 +1,30 @@
+- name: Create a virtual machine from a template
+  community.vmware.vmware_guest:
+    validate_certs: false
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    datacenter: "{{vcenter_datacenter}}"
+    folder: "{{ folder }}"
+    force: "yes"
+    name: "{{ vm_name }}"
+    state: present
+    esxi_hostname: "{{ esxi }}"
+    template: "{{ template }}"
+    datastore: "{{ datastore }}"
+    disk:
+    - size_gb: 40
+      type: thin
+    hardware:
+      memory_mb: 4096
+      num_cpus: 4
+      scsi: paravirtual
+      boot_firmware: "efi"
+      memory_reservation_lock: false
+    networks:
+    - name: LAN
+      start_connected: true
+    wait_for_ip_address: true
+  delegate_to: localhost
+  register: deploy
+  when: true

@@ -1,0 +1,22 @@
+---
+- name: Set configured port fact
+  set_fact:
+    ansible_port: "{{ port }}"
+
+- name: Set ansible user 
+  set_fact:
+    ansible_ssh_user: "{{ username }}"
+
+- name: Change default ssh port
+  lineinfile:
+    dest: "/etc/ssh/ssh_config"
+    regexp: "^#Port"
+    line: "Port {{ configured_port }}"
+  register: vm
+  ignore_unreachable: true
+
+- name: Full Failure
+  fail:
+    msg: "Neither the configured ansible port {{ port }} nor the fallback port {{ default_ssh_port }} were reachable"
+  when: 
+    - vm is unreachable
